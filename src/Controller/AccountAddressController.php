@@ -59,12 +59,12 @@ public function __construct(EntityManagerInterface $entityManager)
 
 
      /**
-     * @Route("/compte/modifier-une-adresse{id}", name="account_address_edit")
+     * @Route("/compte/modifier-une-adresse/{id}", name="account_address_edit")
      */
     public function edit(Request $request, $id): Response
     {  
 
-        $address = new Adress();
+        $address = $this->entityManager->getRepository(Adress::class)->findOneBy($id);
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
 
