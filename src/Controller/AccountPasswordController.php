@@ -31,7 +31,7 @@ public function __construct(EntityManagerInterface $entityManager){
     {
         $notification = null;
         $user = $this->getUser();
-        $form = $this->createForm(ChangePasswordType::class, $user);
+        $form = $this->createForm(ChangePasswordType::class,$user);
 
         $form->handleRequest($request);
 
