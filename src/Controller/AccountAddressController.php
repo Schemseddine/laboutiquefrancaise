@@ -51,7 +51,7 @@ public function __construct(EntityManagerInterface $entityManager)
 
 
 
-        return $this->render('account/address_add.html.twig', [
+        return $this->render('account/address_form.html.twig', [
 
             'form' => $form->createView()
         ]);
@@ -64,27 +64,43 @@ public function __construct(EntityManagerInterface $entityManager)
     public function edit(Request $request, $id): Response
     {  
 
-        $address = $this->entityManager->getRepository(Adress::class)->findOneBy($id);
+        $address = $this->entityManager->getRepository(Adress::class)->findOneBy(['id' => $id]);
+
+        if(!$address || $address->getUser() != $this->getUser()) {
+            return $this->redirectToRoute('account_address');
+        }
+        //création du formulaire
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() ) {
 
-            //récupération des infos de l'utilisateur(user actif)
-            $address->setUser($this->getUser());
-            $this->entityManager->persist($address);
             $this->entityManager->flush();
             return $this->redirectToRoute('account_address');
            
         }
 
-
-
-        return $this->render('account/address_add.html.twig', [
+        return $this->render('account/address_form.html.twig', [
 
             'form' => $form->createView()
         ]);
     }
 
     
+     /**
+     * @Route("/compte/supprimer-une-adresse/{id}", name="account_address_delete")
+     */
+    public function delete($id): Response
+    {  
+
+        $address = $this->entityManager->getRepository(Adress::class)->findOneBy(['id' => $id]);
+
+        if($address && $address->getUser() == $this->getUser()) {
+            $this->entityManager->remove($address);
+            $this->entityManager->flush();
+           
+        }
+            return $this->redirectToRoute('account_address');
+           
+    }
 }

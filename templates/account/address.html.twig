@@ -15,7 +15,7 @@ Bienvenue {{ (app.user.firstname) }}, c'est dans cet espace que vous allez pouvo
 <hr>
 
 {% if app.user.adresses | length == 0 %}
-{{ dump(app.user.adresses)}}
+
 
 <p class="text-center">
 Vous n'avez pas encore ajouté d'adresses dans votre compte client.Pour en ajouter une, veuillez <a href="account_address_add">cliquer ici</a>
@@ -33,7 +33,7 @@ Vous n'avez pas encore ajouté d'adresses dans votre compte client.Pour en ajout
                 <p class="card-text">{{adress.adress}}, </br>
                 {{adress.postal}} - {{adress.city}} - {{adress.country}}
                 </p>
-                <a href="#" class="btn btn-primary">Modifier  |  <a href="#" class="btn btn-primary">Supprimer</a>
+                <a href="{{ path('account_address_edit', { 'id' : adress.id})}}" class="btn btn-primary">Modifier | <a href="{{ path('account_address_delete', { 'id' : adress.id})}}" class="btn btn-primary">Supprimer</a>
             </div>
         </div>
     </div>

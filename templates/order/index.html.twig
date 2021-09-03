@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande- La boutique Française{% endblock %}
+
+{% block content %}
+
+<h2>Je passe ma commande</h2>
+<p>Choisissez vos préférences avant de passer vos commandes sur la boutique française</p>
+<hr>
+    <div class="row">
+        <div class="col-md-6">
+            <b>Choisir mon adresse de livraison</b><br>
+            {{ form(form)}}
+            <b>Choisir mon transporteur</b>
+        </div>
+
+        <div class="col-md-6">
+            <b>Recap de ma commande</b><br>
+            <b>Bouton pour payer</b>
+        </div>
+    </div>
+{% endblock %}
