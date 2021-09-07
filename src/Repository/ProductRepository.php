@@ -31,12 +31,14 @@ class ProductRepository extends ServiceEntityRepository
         ->select('c','p')
         ->join('p.category','c');
 
+        //si l'ui fait la recherche avec le form(cases)
+
         if(!empty($search->categories)){
             $query =$query
             ->andWhere('c.id IN (:categories)')
             ->setParameter('categories', $search->categories);
         }
-
+        //si l'ui fait la recherche avec une saisie texte
         if(!empty($search->string)){
             $query =$query
             ->andWhere('p.name LIKE :string')

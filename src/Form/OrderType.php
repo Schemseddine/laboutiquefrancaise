@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Adress;
 use App\Entity\Carrier;
+use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,6 +33,13 @@ class OrderType extends AbstractType
                 'class' => Carrier::class,
                 'multiple' => false,
                 'expanded' =>true
+            ])
+
+            ->add('submit', SubmitType::class, [
+                'label' =>'Validez votre commande',
+                'attr' => [
+                    'class' => 'btn btn-success btn-block'
+                ]
             ])
         ;
     }

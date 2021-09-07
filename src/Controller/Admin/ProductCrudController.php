@@ -19,7 +19,7 @@ class ProductCrudController extends AbstractCrudController
         return Product::class;
     }
 
-
+//Affichage de notre formulaire dans easyAdmin
     public function configureFields(string $pageName): iterable
     {
         return [

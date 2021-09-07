@@ -48,7 +48,7 @@ public function __construct(EntityManagerInterface $entityManager)
             $this->entityManager->flush();
 
             //si le panier n'est pas vide
-            if($this->cart->get()){
+            if($cart->get()){
                 return $this->redirectToRoute('order');
             }
             else 

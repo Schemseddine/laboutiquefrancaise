@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+//classe qui n'as pas d'entité, me permettant de construire le form de la recherche
 class SearchType extends AbstractType
 
 {
@@ -25,7 +26,7 @@ class SearchType extends AbstractType
                 'class' => 'form-control-sm'
             ]
         ])
-        
+        //j'utilise EntityType pour lier un input, une propriéte de mon form à la class Catégory
         ->add('categories', EntityType::class , [
             'label' => false,
             'required' => false,
@@ -48,6 +49,7 @@ class SearchType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        //Relie le formulaire à la classe Search
         $resolver->setDefaults([
             'data_class'=> Search::class,
             'method' => 'GET',
@@ -55,7 +57,7 @@ class SearchType extends AbstractType
             'crsf_protection' => false,
         ]);
     }
-//me retourne une url clean sans rien
+        //me retourne une url clean sans rien
     public function getBlockPrefix()
     {
         return '';
