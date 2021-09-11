@@ -21,7 +21,10 @@ class Cart
 
     public function add($id)
     {
+
+        //Je stocke mon panier avec une session dans la variable $cart grace à la méthode get()
         $cart = $this->session->get('cart', []);
+
         //incrémantation du produit si l'utilisateur prends plusieurs qtés
         if(!empty($cart[$id])) {
 
@@ -83,7 +86,7 @@ class Cart
                     continue;
                 }
 
-                $cartComplete = [
+                $cartComplete[] = [
                     'product' => $product_object,
                     'quantity' => $quantity
                 ];
@@ -91,7 +94,4 @@ class Cart
         }
         return $cartComplete;
     }
-
-
-
 }

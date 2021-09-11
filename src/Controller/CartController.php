@@ -25,7 +25,8 @@ class CartController extends AbstractController
      */
     public function index(Cart $cart): Response
     {
-        // Initialisation de la var $cartComplete qui représentera mon panier complet
+
+        // Initialisation de la variable $cartComplete qui représentera mon panier complet
         $cartComplete = [];
         //si le panier n'est pas vide fait la boucle 
         if($cart->get()) {
@@ -35,18 +36,21 @@ class CartController extends AbstractController
                 'quantity' => $quantity
             ];
         }
+      
         }        
         return $this->render('cart/index.html.twig', [
             'cart' => $cartComplete
         ]);
     }
 
-     /**
+    /**
      * @Route("/cart/add/{id}", name="add_to_cart")
      */ 
     public function add(Cart $cart, $id): Response
     {
+
         $cart->add($id);
+
         return $this->redirectToRoute('cart');
     }
 
@@ -76,5 +80,5 @@ class CartController extends AbstractController
         $cart->decrease($id);
         return $this->redirectToRoute('cart');
     }
-
+        
 }
