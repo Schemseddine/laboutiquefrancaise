@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Mail;
 use App\Form\RegisterType;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +28,8 @@ class RegisterController extends AbstractController
     public function index(Request $request,UserPasswordEncoderInterface $encoder): Response
 
     {
+        $notification = null;
+
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
 
@@ -35,6 +38,12 @@ class RegisterController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             $user =$form->getData();
+
+            //Vérifier que l'UI n'est pas déjà inscrit
+            $search_mail = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
+
+            if(!$search_mail) {
+
             $password = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
 
@@ -42,9 +51,24 @@ class RegisterController extends AbstractController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
+            $mail = new Mail;
+            $content = "Bonjour" .$user->getFirstname(). "<br/>Venez decouvrir les nouveautés de l'Evidence.<br><br/>Lorem ipsum .... ";
+            $mail->send($user->getEmail(), $user->getFirstname(), "Bienvenue sur le site de L'Evidence", $content );
+
+
+            $notification = "Votre inscription s'est correctement déroulée, vous pouvez dès à présent vous connecter à votre compte";
+
+            } else {
+
+            $notification = "Ce mail existe déjà, veuillez en choisir un autre";
+            }
+
+
+           
         }
         return $this->render('register/index.html.twig', [
-            'form'=>$form->createView()
+            'form' => $form->createView(),
+            'notification' => $notification
         ]);
     }
 }
