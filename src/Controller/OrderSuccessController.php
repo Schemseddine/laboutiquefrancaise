@@ -34,7 +34,7 @@ class OrderSuccessController extends AbstractController
         //Vider la session "cart"
         $cart->remove();
         
-        //Modifier le statut isPaid() de notre commande en mettant 1 
+        //Modifier le statut setState de notre commande en mettant 1 
         $order->setState(1);
         $this->entityManager->flush();
         }

@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 
 class OrderCrudController extends AbstractCrudController
@@ -33,27 +34,52 @@ class OrderCrudController extends AbstractCrudController
     {
         return Order::class;
     }
-// voir la commande dans le dashboard
+
     public function configureActions(Actions $actions): Actions
     {
-        $updatePreparation = Action::new('updatePreparation', 'Préparation en cours')->linkToCrudAction('updatePreparation');
+        //Initialisation de la méthode 'updatePreparation'
+        $updatePreparation = Action::new('updatePreparation', 'Préparation en cours  ','fas fa-box-open' )->linkToCrudAction('updatePreparation');
+        $updateDelivery = Action::new('updateDelivery', 'Livraison en cours', 'fas fa-truck')->LinkToCrudAction('updateDelivery');
         return $actions
-
+        // 'detail' correspond au lien 'voir' dans le Dashboard
         ->add('detail' , $updatePreparation)
+        ->add('detail' , $updateDelivery)
         ->add('index' , 'detail');
     } 
 
+    //Création de la méthode 'updatePreparation'
     public function updatePreparation(AdminContext $context)
     {
         $order = $context->getEntity()->getInstance();
         $order->setState(2);
         $this->entityManager->flush();
 
+        $this->addFlash('notice', "<span style='color:green;'><strong>La commande ".$order->getReference()." est bien <u>en cours de préparation</u>.</strong></span>");
+
         $url =  $this->crudUrlGenerator->build()
         ->setController(OrderCrudController::class)
         ->setAction('index')
         ->generateUrl();
+
+        return $this->redirect($url);
     }
+
+    public function updateDelivery(AdminContext $context)
+    {
+        $order = $context->getEntity()->getInstance();
+        $order->setState(3);
+        $this->entityManager->flush();
+
+        $this->addFlash('notice', "<span style='color:green;'><strong>La commande ".$order->getReference()." est bien <u>en cours de Livraison</u>.</strong></span>");
+
+        $url =  $this->crudUrlGenerator->build()
+        ->setController(OrderCrudController::class)
+        ->setAction('index')
+        ->generateUrl();
+
+        return $this->redirect($url);
+    }
+
 
     //Classement de nos commandes de maniere descendante
     public function configureCrud(Crud $crud): Crud
@@ -70,6 +96,7 @@ class OrderCrudController extends AbstractCrudController
             IdField::new('id'),
             DateField::new('createdAt', 'Passée le'),
             TextField::new('user.fullname', 'Utilisateur'),
+            TextEditorField::new('delivery','Adresse de livraison')->onlyOnDetail(),
             TextField::new('carrierName', 'Transporteur'),
             MoneyField::new('total', 'Total produit')->setCurrency('EUR'),
             MoneyField::new('carrierPrice', 'Frais de port')->setCurrency('EUR'),

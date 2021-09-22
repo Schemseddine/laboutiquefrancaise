@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -31,6 +32,7 @@ class ProductCrudController extends AbstractCrudController
                                            ->setUploadedFileNamePattern('[randomhash].[extension]')
                                            ->setRequired(false),
             TextareaField::new('description'),
+            BooleanField::new('isBest'),
             TextField::new('subtitle'),
             MoneyField::new('price', 'Price')->setCurrency('EUR'),
             AssociationField::new('category')
