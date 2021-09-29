@@ -53,7 +53,7 @@ class ChangePasswordType extends AbstractType
                 'first_options' => [
                     'label' => 'Mon nouveau mot de passe',
                     'attr'=> [
-                        'placeholder' =>'Merci de confirmer votre nouveau mot de passe.'
+                        'placeholder' =>'Merci de saisir votre nouveau mot de passe.'
                             ]
                     ],
                 
