@@ -32,7 +32,8 @@ class StripeController extends AbstractController
         } 
 
         foreach ($order->getOrderDetails()->getValues() as $product) {
-
+            
+        //ici on indique la totalité de la commande
             $product_object = $entityManager->getRepository(Product::class)->findOneBy(['name' => $product->getProduct()]);
             $products_for_stripe[]  = [
                     'price_data' =>[
@@ -47,6 +48,8 @@ class StripeController extends AbstractController
                
             ];
         }
+        //on rajoute cette fois ci le prix de la livraison
+
         $products_for_stripe[]  = [
             'price_data' =>[
                 'currency' => 'eur',

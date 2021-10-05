@@ -85,8 +85,8 @@
 
  <script type="text/javascript">
 
- var stripe = Stripe('pk_test_51JYyS8CPVjZaB3vv0JMv7Ga0JY2mHKN3Z1RhQ0HznvLE39t87MyocNJChyuQ2JXuehJXiJR8s00OyZdmZtxb413f00ibvl5WG4');
- var checkoutButton = document.getElementById("checkout-button");
+ let stripe = Stripe('pk_test_51JYyS8CPVjZaB3vv0JMv7Ga0JY2mHKN3Z1RhQ0HznvLE39t87MyocNJChyuQ2JXuehJXiJR8s00OyZdmZtxb413f00ibvl5WG4');
+ let checkoutButton = document.getElementById("checkout-button");
  checkoutButton.addEventListener("click" , function () {
 
      fetch("/commande/create-session/{{reference}}",{

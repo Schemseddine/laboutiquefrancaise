@@ -3,14 +3,14 @@
 namespace App\Controller;
 
 use App\Classe\Mail;
-use App\Form\RegisterType;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\RegisterType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegisterController extends AbstractController
 { 
@@ -25,7 +25,7 @@ class RegisterController extends AbstractController
      * @Route("/inscription", name="register")
      */
 
-    public function index(Request $request,UserPasswordEncoderInterface $encoder): Response
+    public function index(Request $request,UserPasswordHasherInterface $hash): Response
 
     {
         $notification = null;
@@ -38,13 +38,14 @@ class RegisterController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             $user =$form->getData();
+           
 
             //Vérifier que l'UI n'est pas déjà inscrit
             $search_mail = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
 
             if(!$search_mail) {
 
-            $password = $encoder->encodePassword($user, $user->getPassword());
+            $password = $hash->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
             
