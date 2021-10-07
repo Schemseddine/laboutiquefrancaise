@@ -35,6 +35,7 @@ class CartController extends AbstractController
                 'product' => $this->entityManager->getRepository(Product::class)->findOneBy(['id' => $id]),
                 'quantity' => $quantity
             ];
+           
         }
       
         }        
