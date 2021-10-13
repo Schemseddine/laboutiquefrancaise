@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\User;
-//use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,8 +34,8 @@ class ChangePasswordType extends AbstractType
             ])
 
             ->add('old_password', PasswordType::class, [
-                'mapped' => false,
                 'label' => 'Mon mot de passe actuel',
+                'mapped' => false,
                 [
                     'attr' => [
                         'placeholder' => 'Veuillez saisir votre mot de passe actuel'
@@ -68,7 +67,8 @@ class ChangePasswordType extends AbstractType
 
 
             ->add('submit', SubmitType::class, [
-                'label'=>"Mettre à jour"
+                'label'=> "Mettre à jour",
+            
             ])
         ;
     }

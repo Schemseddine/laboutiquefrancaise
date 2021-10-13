@@ -6,7 +6,6 @@ use App\Form\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,9 +30,12 @@ public function __construct(EntityManagerInterface $entityManager){
     {
         $notification = null;
         $user = $this->getUser();
+        
         $form = $this->createForm(ChangePasswordType::class, $user);
+    
 
         $form->handleRequest($request);
+      
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -41,6 +43,7 @@ public function __construct(EntityManagerInterface $entityManager){
 
             if($hash->isPasswordValid($user, $old_pwd)) {
                 $new_pwd = $form->get('new_password')->getData();
+              
                 $password = $hash->hashPassword($user, $new_pwd);
 
                 $user->setPassword($password);

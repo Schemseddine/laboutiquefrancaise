@@ -34,5 +34,18 @@ class ContactController extends AbstractController
         return $this->render('contact/index.html.twig',[
             'form' => $form->createView()
         ]);
+
     }
+
+    /**
+     * @Route("/qui-sommes-nous", name="whoWeAre")
+     */
+
+    public function whoWeAre() {
+
+    return $this->render('contact/whoWeAre.html.twig');
+
+    }
+
+
 }

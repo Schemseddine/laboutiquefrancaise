@@ -4,14 +4,15 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 
 class RegisterType extends AbstractType
 {
@@ -54,7 +55,13 @@ class RegisterType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message'=> 'le mot de passe et la confirmation doivent etre identiques',
                 'label'=>'Votre mot de passe',
+                'constraints' => new Length([
+                    'min'=> 8,
+                    'max'=> 50
+                ]),
+                // 'constraints' => new Regex(['/[0-9]{3,},[a-z]{7,}/']),
                 'required'=> true,
+                
                 'first_options'=> [
                     'label'=> 'Mot de passe',
                     'attr'=> [
@@ -62,7 +69,8 @@ class RegisterType extends AbstractType
                             ]
                     ],
                 
-                'second_options'=> ['label'=> 'Confirmez votre mot de passe',
+                'second_options'=> [
+                    'label'=> 'Confirmez votre mot de passe',
                     'attr'=> [
                         'placeholder'=>'Merci de confirmer votre mot de passe'
                     ]
